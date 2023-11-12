@@ -29,10 +29,9 @@ test = MNISTDataset(test_image_path, test_label_path)
 dev_size = int(len(training) * 0.2)
 train_indices, dev_indices = train_test_split(range(len(training)), test_size=dev_size, random_state=42)
 
-train_loader = DataLoader(training, batch_size = batch_size_train, shuffle=True)
+train_loader = DataLoader(Subset(training, train_indices), batch_size=batch_size_train, shuffle=True)
 test_loader = DataLoader(test, batch_size = batch_size_test, shuffle=True)
 dev_loader = DataLoader(Subset(training, dev_indices), batch_size=batch_size_train, shuffle=True)
-
 # Device configuration
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print(device)
