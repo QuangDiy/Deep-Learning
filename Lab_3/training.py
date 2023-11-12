@@ -5,7 +5,8 @@ from evaluation.metric import predict, compute_score, classification_labels
 from models.lenet import LeNet
 from models.GoogLeNet import GoogLeNet
 import torch.nn as nn
-import matplotlib.pyplot  as plt
+import matplotlib.pyplot as plt
+from tqdm import tqdm
 
 
 training = MNISTDataset('dataset/train-images-idx3-ubyte.gz', 'dataset/train-labels-idx1-ubyte.gz')
@@ -37,7 +38,8 @@ for epoch in range(num_epochs):
     epoch_loss = 0.0
     epoch_acc = 0.0
 
-    for i, (images, labels) in enumerate(train_loader):
+    pbar = tqdm(enumerate(train_loader), total=len(train_loader))
+    for i, (images, labels) in pbar:
         # forward backward, update
         images = images.to(device)
         labels = labels.to(device)
@@ -54,9 +56,11 @@ for epoch in range(num_epochs):
         epoch_loss += loss.item()
         epoch_acc += acc
         
+        pbar.set_description(f'Epoch [{epoch+1}/{num_epochs}], loss: {epoch_loss / (i+1):.4f}, accuracy: {epoch_acc / (i+1):.4f}')
+        
     epoch_loss /= len(train_loader)
     epoch_acc /= len(train_loader)
     list_loss.append(epoch_loss)
     list_accuracy.append(epoch_acc)
     
-    print('Epoch [{}/{}], loss: {:.4f}, accuracy: {:4f}' .format(epoch+1, num_epochs, epoch_loss, epoch_acc))
+    print('Epoch [{}/{}], loss: {:.4f}, accuracy: {:.4f}'.format(epoch+1, num_epochs, epoch_loss, epoch_acc))
