@@ -20,7 +20,7 @@ test_label_path = './Deep-Learning/Lab_3/dataset/t10k-labels-idx1-ubyte.gz'
 n_epochs = 20
 batch_size_train = 128
 batch_size_test = 128
-learning_rate = 0.01
+learning_rate = 0.001
 patience = 3
 #---------------------#
 training = MNISTDataset(train_image_path, train_label_path)
@@ -102,9 +102,7 @@ for epoch in range(n_epochs):
     list_dev_loss.append(dev_loss)
     list_dev_accuracy.append(dev_acc)
 
-    print(f"Epoch {epoch+1}/{n_epochs}")
-    print(f"Validation Loss: {dev_loss:.6f}")
-    print(f"Training Loss: {epoch_loss:.6f}")
+    print(f"Epoch {epoch+1}/{n_epochs} | Validation Loss: {dev_loss:.6f} | Training Loss: {epoch_loss:.6f}")
 
     early_stopping(dev_loss, model)
     if early_stopping.early_stop:
