@@ -107,6 +107,7 @@ for epoch in range(n_epochs):
 
     early_stopping(dev_loss, model)
     if early_stopping.early_stop:
+        n_epochs = epoch+1
         print("Early stopping")
         break
 #---------------------#
