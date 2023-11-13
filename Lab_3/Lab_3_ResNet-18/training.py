@@ -18,16 +18,23 @@ batch_size_test = 128
 learning_rate = 0.01
 patience = 3
 momentum = 0.9
-weight_decay = 0.01
+weight_decay = 5e-4
 num_classes = 10
 #---------------------#
-transform = transforms.Compose([
+transform_train = transforms.Compose([
+    transforms.RandomCrop(32, padding=4),
+    transforms.RandomHorizontalFlip(),
     transforms.ToTensor(),
-    transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])
+    transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
 ])
 
-train_dataset = torchvision.datasets.CIFAR10(root='./data', train=True, download=True, transform=transform)
-test_dataset = torchvision.datasets.CIFAR10(root='./data', train=False, download=True, transform=transform)
+transform_test = transforms.Compose([
+    transforms.ToTensor(),
+    transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+])
+
+train_dataset = torchvision.datasets.CIFAR10(root='./data', train=True, download=True, transform=transform_train)
+test_dataset = torchvision.datasets.CIFAR10(root='./data', train=False, download=True, transform=transform_test)
 
 train_dataset, dev_dataset = train_test_split(train_dataset, test_size=0.2, random_state=42)
 
@@ -105,6 +112,7 @@ for epoch in range(n_epochs):
 
     early_stopping(dev_loss, model)
     if early_stopping.early_stop:
+        n_epochs = epoch + 1
         print("Early stopping")
         break
 #---------------------#
