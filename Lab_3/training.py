@@ -51,9 +51,6 @@ early_stopping = EarlyStopping(patience = patience, verbose=True)
 
 list_loss = []
 list_accuracy = []
-
-list_loss = []
-list_accuracy = []
 list_dev_loss = []
 list_dev_accuracy = []
 
@@ -106,9 +103,23 @@ for epoch in range(n_epochs):
     list_dev_loss.append(dev_loss)
     list_dev_accuracy.append(dev_acc)
 
-    print(f"Epoch {epoch+1}/{n_epochs} | Validation Loss: {dev_loss:.6f} | Training Loss: {epoch_loss:.6f}")
+    print(f"Epoch {epoch+1}/{n_epochs} | Training Loss: {epoch_loss:.6f} | Val Loss: {dev_loss:.6f} | Val Acc: {dev_acc:.6f}")
 
     early_stopping(dev_loss, model)
     if early_stopping.early_stop:
         print("Early stopping")
         break
+#---------------------#
+y_pred, y_true = predict(model, test_loader, device)
+acc, f1, precision, recall = compute_score(y_pred, y_true)
+metrics = classification_labels(y_pred, y_true, num_classes = 10)
+# Test set
+print("Accuracy: {:.2f}".format(acc), end=" | ")
+print("F1 Score: {:.2f}".format(f1), end=" | ")
+print("Precision: {:.2f}".format(precision), end=" | ")
+print("Recall: {:.2f}".format(recall))
+# For each labels
+print(f'{"Class":<5} {"F1-score":<10} {"Accuracy":<10} {"Precision":<10} {"Recall":<10}')
+for i in range(len(metrics['f1'])):
+  print(f'{i:<5} {metrics["f1"][i].item():<10.4f} {metrics["accuracy"][i].item():<10.4f} {metrics["precision"][i].item():<10.4f} {metrics["recall"][i].item():<10.4f}')
+
