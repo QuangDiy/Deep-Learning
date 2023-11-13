@@ -31,7 +31,7 @@ class MNISTDataset(Dataset):
 
         self.data = []
         for image, label in zip(images, labels):
-            resized_image = Image.fromarray(image.squeeze(), mode='L').resize((96, 96))
+            resized_image = Image.fromarray(image.squeeze(), mode='L').resize((32, 32))
             resized_image = np.array(resized_image)
             resized_image = np.expand_dims(resized_image, axis=0)
             self.data.append({

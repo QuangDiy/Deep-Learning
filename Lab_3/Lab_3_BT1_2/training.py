@@ -13,14 +13,14 @@ from utils.early_stopping import EarlyStopping
 # ./Deep-Learning/Lab_3/
 #Config
 #---------------------#
-# train_image_path = 'dataset/train-images-idx3-ubyte.gz'
-# train_label_path = 'dataset/train-labels-idx1-ubyte.gz'
-# test_image_path = 'dataset/t10k-images-idx3-ubyte.gz'
-# test_label_path = 'dataset/t10k-labels-idx1-ubyte.gz'
-train_image_path = './Deep-Learning/Lab_3/Lab_3_BT1_2/dataset/train-images-idx3-ubyte.gz'
-train_label_path = './Deep-Learning/Lab_3/Lab_3_BT1_2/dataset/train-labels-idx1-ubyte.gz'
-test_image_path = './Deep-Learning/Lab_3/Lab_3_BT1_2/dataset/t10k-images-idx3-ubyte.gz'
-test_label_path = './Deep-Learning/Lab_3/Lab_3_BT1_2/dataset/t10k-labels-idx1-ubyte.gz'
+train_image_path = 'dataset/train-images-idx3-ubyte.gz'
+train_label_path = 'dataset/train-labels-idx1-ubyte.gz'
+test_image_path = 'dataset/t10k-images-idx3-ubyte.gz'
+test_label_path = 'dataset/t10k-labels-idx1-ubyte.gz'
+# train_image_path = './Deep-Learning/Lab_3/Lab_3_BT1_2/dataset/train-images-idx3-ubyte.gz'
+# train_label_path = './Deep-Learning/Lab_3/Lab_3_BT1_2/dataset/train-labels-idx1-ubyte.gz'
+# test_image_path = './Deep-Learning/Lab_3/Lab_3_BT1_2/dataset/t10k-images-idx3-ubyte.gz'
+# test_label_path = './Deep-Learning/Lab_3/Lab_3_BT1_2/dataset/t10k-labels-idx1-ubyte.gz'
 n_epochs = 20
 batch_size_train = 128
 batch_size_test = 128
