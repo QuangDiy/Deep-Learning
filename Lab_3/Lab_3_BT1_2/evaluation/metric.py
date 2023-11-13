@@ -3,7 +3,6 @@ from sklearn.metrics import f1_score, accuracy_score, precision_score, recall_sc
 import matplotlib.pyplot as plt
 import seaborn as sns
 import os
-import datetime
 
 def predict(model, test_loader, device):
     model.eval()
@@ -57,8 +56,7 @@ def save_fig(y_pred: list, y_true: list):
     plt.xlabel('Predicted')
     plt.title('Confusion Matrix')
     
-    current_time = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
-    file_name = f"confusion_matrix_{current_time}.png"
+    file_name = f"confusion_matrix.png"
     save_path = os.path.join(os.getcwd(), file_name)
     
     plt.savefig(save_path)
