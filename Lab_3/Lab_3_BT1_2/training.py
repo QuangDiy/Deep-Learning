@@ -27,8 +27,7 @@ batch_size_test = 128
 learning_rate = 0.01
 patience = 3
 momentum = 0.9
-weight_decay = 0.001
-shuffle = "True"
+weight_decay = 0.01
 #---------------------#
 
 training = MNISTDataset(train_image_path, train_label_path)
@@ -37,15 +36,15 @@ test = MNISTDataset(test_image_path, test_label_path)
 dev_size = int(len(training) * 0.2)
 train_indices, dev_indices = train_test_split(range(len(training)), test_size=dev_size, random_state = 42)
 
-train_loader = DataLoader(Subset(training, train_indices), batch_size=batch_size_train, shuffle = shuffle)
-test_loader = DataLoader(test, batch_size = batch_size_test, shuffle = shuffle)
-dev_loader = DataLoader(Subset(training, dev_indices), batch_size=batch_size_train, shuffle = shuffle)
+train_loader = DataLoader(Subset(training, train_indices), batch_size=batch_size_train, shuffle = False)
+test_loader = DataLoader(test, batch_size = batch_size_test, shuffle = False)
+dev_loader = DataLoader(Subset(training, dev_indices), batch_size=batch_size_train, shuffle = False)
 # Device configuration
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 model = LeNet().to(device)
 
-optimizer = torch.optim.SGD(model.parameters(), lr = learning_rate, weight_decay = weight_decay)
+optimizer = torch.optim.SGD(model.parameters(), lr = learning_rate, momentum = momentum, weight_decay = weight_decay)
 
 loss_fn = nn.CrossEntropyLoss()
 
