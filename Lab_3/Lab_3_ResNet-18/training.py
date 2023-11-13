@@ -19,7 +19,7 @@ learning_rate = 0.01
 patience = 3
 momentum = 0.9
 weight_decay = 0.01
-num_classes = 100
+num_classes = 10
 #---------------------#
 transform = transforms.Compose([
     transforms.ToTensor(),
@@ -110,7 +110,7 @@ for epoch in range(n_epochs):
 #---------------------#
 y_pred, y_true = predict(model, test_loader, device)
 acc, f1, precision, recall = compute_score(y_pred, y_true)
-metrics = classification_labels(y_pred, y_true, num_classes = num_classes)
+metrics = classification_labels(y_pred, y_true, num_classes)
 # Test set
 print("Accuracy: {:.2f} | F1 Score: {:.2f} | Precision: {:.2f} | Recall: {:.2f}".format(acc, f1, precision, recall))
 # For each labels

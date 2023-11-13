@@ -28,7 +28,7 @@ def compute_score(y_pred: list, y_true: list):
 
     return acc, f1, precision, recall
 
-def classification_labels(y_pred: list, y_true: list, num_classes=100):
+def classification_labels(y_pred: list, y_true: list, num_classes):
     y_true = torch.tensor(y_true)
     y_pred = torch.tensor(y_pred)
 
