@@ -27,6 +27,7 @@ batch_size_test = 128
 learning_rate = 0.01
 patience = 3
 momentum = 0.9
+weight_decay = 0.001
 shuffle = "True"
 #---------------------#
 
@@ -44,7 +45,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 model = LeNet().to(device)
 
-optimizer = torch.optim.SGD(model.parameters(), lr = learning_rate)
+optimizer = torch.optim.SGD(model.parameters(), lr = learning_rate, weight_decay = weight_decay)
 
 loss_fn = nn.CrossEntropyLoss()
 
