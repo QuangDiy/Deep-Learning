@@ -2,6 +2,8 @@
 import torch
 import numpy as np
 from sklearn.metrics import f1_score, accuracy_score, precision_score, recall_score, confusion_matrix
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 def predict(model, test_loader, device):
     model.eval()
@@ -45,5 +47,13 @@ def classification_labels(y_pred: list, y_true: list, num_classes=10):
         'recall': recall,
         'f1': f1,
     }
-
     return metrics
+
+def show_confusion_matrix(y_pred: list, y_true: list):
+    cm = confusion_matrix(y_true, y_pred)
+    plt.figure(figsize=(7, 5))
+    sns.heatmap(cm, annot=True, fmt='d', cmap='viridis')
+    plt.ylabel('Labels')
+    plt.xlabel('Predicted')
+    plt.title('Confusion Matrix')
+    plt.show()
