@@ -1,49 +1,46 @@
-from data_utils.dataset import MNISTDataset
 import torch
+import torchvision
+import torchvision.transforms as transforms
 from torch.utils.data import Dataset, DataLoader
 from evaluation.metric import predict, compute_score, classification_labels, show_confusion_matrix
-from models.lenet import LeNet
-from models.GoogLeNet import GoogLeNet
+from models.ResNet import ResNet18
 import torch.nn as nn
 import matplotlib.pyplot as plt
 from tqdm import tqdm
 from sklearn.model_selection import train_test_split
 from torch.utils.data import Subset
 from utils.early_stopping import EarlyStopping
-# ./Deep-Learning/Lab_3/
-#Config
+
 #---------------------#
-# train_image_path = 'dataset/train-images-idx3-ubyte.gz'
-# train_label_path = 'dataset/train-labels-idx1-ubyte.gz'
-# test_image_path = 'dataset/t10k-images-idx3-ubyte.gz'
-# test_label_path = 'dataset/t10k-labels-idx1-ubyte.gz'
-train_image_path = './Deep-Learning/Lab_3/dataset/train-images-idx3-ubyte.gz'
-train_label_path = './Deep-Learning/Lab_3/dataset/train-labels-idx1-ubyte.gz'
-test_image_path = './Deep-Learning/Lab_3/dataset/t10k-images-idx3-ubyte.gz'
-test_label_path = './Deep-Learning/Lab_3/dataset/t10k-labels-idx1-ubyte.gz'
 n_epochs = 20
 batch_size_train = 128
 batch_size_test = 128
 learning_rate = 0.01
 patience = 3
 momentum = 0.9
+weight_decay = 0.01
 #---------------------#
-training = MNISTDataset(train_image_path, train_label_path)
-test = MNISTDataset(test_image_path, test_label_path)
+transform = transforms.Compose([
+    transforms.ToTensor(),
+    transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])
+])
 
-dev_size = int(len(training) * 0.2)
-train_indices, dev_indices = train_test_split(range(len(training)), test_size=dev_size, random_state=42)
+train_dataset = torchvision.datasets.CIFAR10(root='./data', train=True, download=True, transform=transform)
+test_dataset = torchvision.datasets.CIFAR10(root='./data', train=False, download=True, transform=transform)
 
-train_loader = DataLoader(Subset(training, train_indices), batch_size=batch_size_train, shuffle=True)
-test_loader = DataLoader(test, batch_size = batch_size_test, shuffle=True)
-dev_loader = DataLoader(Subset(training, dev_indices), batch_size=batch_size_train, shuffle=True)
+train_dataset, dev_dataset = train_test_split(train_dataset, test_size=0.2, random_state=42)
+
+train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size_train, shuffle=True)
+dev_loader = torch.utils.data.DataLoader(dev_dataset, batch_size=batch_size_train, shuffle=False)
+test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=batch_size_test, shuffle=False)
+
 # Device configuration
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print(device)
 
-model = GoogLeNet().to(device)
+model = ResNet18().to(device)
 
-optimizer = torch.optim.SGD(model.parameters(), lr = learning_rate,  momentum = momentum)
+optimizer = torch.optim.SGD(model.parameters(), lr = learning_rate, weight_decay = weight_decay, momentum = momentum)
 
 loss_fn = nn.CrossEntropyLoss()
 

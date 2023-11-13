@@ -5,7 +5,7 @@ from evaluation.metric import predict, compute_score, classification_labels
 import torch.nn as nn
 import matplotlib.pyplot  as plt
 from torchsummary import summary
-from models.GoogLeNet import GoogLeNet
+from models.ResNet import ResNet18
 
 
 training = MNISTDataset('dataset/train-images-idx3-ubyte.gz', 'dataset/train-labels-idx1-ubyte.gz')
@@ -22,11 +22,11 @@ print('Kích thước của ảnh trong batch:', images.size())
 print('Kích thước của ảnh đầu tiên trong batch:', images[0].size())
 
 
-model = GoogLeNet()  # Thay đổi giá trị input tùy theo số lượng kênh của ảnh đầu vào
+model = ResNet18()  # Thay đổi giá trị input tùy theo số lượng kênh của ảnh đầu vào
 
 model.train()
 
-input_size = (1, 96, 96)  # (channels, height, width) - Thay đổi giá trị channels tùy theo số lượng kênh của ảnh đầu vào
+input_size = (1, 32, 32)  # (channels, height, width) - Thay đổi giá trị channels tùy theo số lượng kênh của ảnh đầu vào
 
 summary(model, input_size=input_size)
 
