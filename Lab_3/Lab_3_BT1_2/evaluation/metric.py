@@ -1,9 +1,9 @@
-# import sklearn.metrics as metrics
 import torch
-import numpy as np
 from sklearn.metrics import f1_score, accuracy_score, precision_score, recall_score, confusion_matrix
 import matplotlib.pyplot as plt
 import seaborn as sns
+import os
+import datetime
 
 def predict(model, test_loader, device):
     model.eval()
@@ -49,11 +49,16 @@ def classification_labels(y_pred: list, y_true: list, num_classes=10):
     }
     return metrics
 
-def show_confusion_matrix(y_pred: list, y_true: list):
+def save_fig(y_pred: list, y_true: list):
     cm = confusion_matrix(y_true, y_pred)
     plt.figure(figsize=(7, 5))
     sns.heatmap(cm, annot=True, fmt='d', cmap='viridis')
     plt.ylabel('Labels')
     plt.xlabel('Predicted')
     plt.title('Confusion Matrix')
-    plt.show()
+    
+    current_time = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+    file_name = f"confusion_matrix_{current_time}.png"
+    save_path = os.path.join(os.getcwd(), file_name)
+    
+    plt.savefig(save_path)

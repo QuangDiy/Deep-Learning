@@ -1,7 +1,7 @@
 from data_utils.dataset import MNISTDataset
 import torch
 from torch.utils.data import Dataset, DataLoader
-from evaluation.metric import predict, compute_score, classification_labels, show_confusion_matrix
+from evaluation.metric import predict, compute_score, classification_labels, save_fig
 from models.lenet import LeNet
 from models.GoogLeNet import GoogLeNet
 import torch.nn as nn
@@ -13,14 +13,14 @@ from utils.early_stopping import EarlyStopping
 # ./Deep-Learning/Lab_3/
 #Config
 #---------------------#
-train_image_path = 'dataset/train-images-idx3-ubyte.gz'
-train_label_path = 'dataset/train-labels-idx1-ubyte.gz'
-test_image_path = 'dataset/t10k-images-idx3-ubyte.gz'
-test_label_path = 'dataset/t10k-labels-idx1-ubyte.gz'
-# train_image_path = './Deep-Learning/Lab_3/Lab_3_BT1_2/dataset/train-images-idx3-ubyte.gz'
-# train_label_path = './Deep-Learning/Lab_3/Lab_3_BT1_2/dataset/train-labels-idx1-ubyte.gz'
-# test_image_path = './Deep-Learning/Lab_3/Lab_3_BT1_2/dataset/t10k-images-idx3-ubyte.gz'
-# test_label_path = './Deep-Learning/Lab_3/Lab_3_BT1_2/dataset/t10k-labels-idx1-ubyte.gz'
+# train_image_path = 'dataset/train-images-idx3-ubyte.gz'
+# train_label_path = 'dataset/train-labels-idx1-ubyte.gz'
+# test_image_path = 'dataset/t10k-images-idx3-ubyte.gz'
+# test_label_path = 'dataset/t10k-labels-idx1-ubyte.gz'
+train_image_path = './Deep-Learning/Lab_3/Lab_3_BT1_2/dataset/train-images-idx3-ubyte.gz'
+train_label_path = './Deep-Learning/Lab_3/Lab_3_BT1_2/dataset/train-labels-idx1-ubyte.gz'
+test_image_path = './Deep-Learning/Lab_3/Lab_3_BT1_2/dataset/t10k-images-idx3-ubyte.gz'
+test_label_path = './Deep-Learning/Lab_3/Lab_3_BT1_2/dataset/t10k-labels-idx1-ubyte.gz'
 n_epochs = 20
 batch_size_train = 128
 batch_size_test = 128
@@ -121,5 +121,5 @@ for i in range(len(metrics['f1'])):
   print(f'{i:<5} {metrics["f1"][i].item():<10.4f} {metrics["accuracy"][i].item():<10.4f} {metrics["precision"][i].item():<10.4f} {metrics["recall"][i].item():<10.4f}')
 
 # Show confusion_matrix
-show_confusion_matrix(y_pred, y_true)
+save_fig(y_pred, y_true)
 
