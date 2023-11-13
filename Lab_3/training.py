@@ -13,6 +13,10 @@ from utils.early_stopping import EarlyStopping
 # ./Deep-Learning/Lab_3/
 #Config
 #---------------------#
+# train_image_path = 'dataset/train-images-idx3-ubyte.gz'
+# train_label_path = 'dataset/train-labels-idx1-ubyte.gz'
+# test_image_path = 'dataset/t10k-images-idx3-ubyte.gz'
+# test_label_path = 'dataset/t10k-labels-idx1-ubyte.gz'
 train_image_path = './Deep-Learning/Lab_3/dataset/train-images-idx3-ubyte.gz'
 train_label_path = './Deep-Learning/Lab_3/dataset/train-labels-idx1-ubyte.gz'
 test_image_path = './Deep-Learning/Lab_3/dataset/t10k-images-idx3-ubyte.gz'

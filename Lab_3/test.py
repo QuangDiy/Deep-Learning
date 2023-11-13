@@ -26,6 +26,12 @@ model = GoogLeNet()  # Thay đổi giá trị input tùy theo số lượng kên
 
 model.train()
 
-input_size = (1, 28, 28)  # (channels, height, width) - Thay đổi giá trị channels tùy theo số lượng kênh của ảnh đầu vào
+input_size = (1, 96, 96)  # (channels, height, width) - Thay đổi giá trị channels tùy theo số lượng kênh của ảnh đầu vào
 
 summary(model, input_size=input_size)
+
+# X = torch.rand(size=(1, 1, 96, 96))  # Đầu vào có 3 kênh màu (RGB) với kích thước 96x96
+# X= dataiter
+# for name, layer in model.named_children():
+#     X = layer(X)
+#     print(name, 'output shape:', X.shape)
