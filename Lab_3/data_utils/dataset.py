@@ -26,7 +26,7 @@ class MNISTDataset(Dataset):
         self.load_dataset(path_images, path_labels)
 
     def load_dataset(self, path_images, path_labels):
-        images = load_data(path_images, False) / 255.0
+        images = load_data(path_images, False)
         labels = load_data(path_labels, True).reshape(-1)
 
         self.data = []
@@ -38,6 +38,10 @@ class MNISTDataset(Dataset):
                 "images": resized_image.astype('float32'),
                 "labels": label
             })
+            # self.data.append({
+            #     "images": images.astype('float32'),
+            #     "labels": label
+            # })
 
     def __getitem__(self, idx):
         images = self.data[idx]["images"]

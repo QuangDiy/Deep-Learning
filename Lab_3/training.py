@@ -24,8 +24,9 @@ test_label_path = './Deep-Learning/Lab_3/dataset/t10k-labels-idx1-ubyte.gz'
 n_epochs = 20
 batch_size_train = 128
 batch_size_test = 128
-learning_rate = 0.001
+learning_rate = 0.01
 patience = 3
+momentum = 0.9
 #---------------------#
 training = MNISTDataset(train_image_path, train_label_path)
 test = MNISTDataset(test_image_path, test_label_path)
@@ -42,7 +43,7 @@ print(device)
 
 model = GoogLeNet().to(device)
 
-optimizer = torch.optim.SGD(model.parameters(), lr = learning_rate)
+optimizer = torch.optim.SGD(model.parameters(), lr = learning_rate,  momentum = momentum)
 
 loss_fn = nn.CrossEntropyLoss()
 
@@ -61,12 +62,11 @@ for epoch in range(n_epochs):
     epoch_acc = 0.0
 
     pbar = tqdm(enumerate(train_loader), total=len(train_loader))
-    model.train() # Chuyển sang chế độ training
+    model.train() 
     for i, (images, labels) in pbar:
-        # forward backward, update
         images = images.to(device)
         labels = labels.to(device)
-        # Forward pass
+
         outputs = model(images)
         loss = loss_fn(outputs, labels)
         acc = (torch.max(outputs, dim=1)[1] == labels).sum().item() / labels.size(0)

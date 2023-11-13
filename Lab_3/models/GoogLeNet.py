@@ -52,11 +52,16 @@ class GoogLeNet(nn.Module):
                                 Inception(528, 256, (160, 320), (32, 128), 128),
                                 nn.MaxPool2d(kernel_size=3, stride=2, padding=1))
 
+        # self.b5 = nn.Sequential(Inception(832, 256, (160, 320), (32, 128), 128),
+        #                         Inception(832, 384, (192, 384), (48, 128), 128),
+        #                         nn.AdaptiveAvgPool2d((1, 1)),
+        #                         nn.Flatten())
+
         self.b5 = nn.Sequential(Inception(832, 256, (160, 320), (32, 128), 128),
                                 Inception(832, 384, (192, 384), (48, 128), 128),
-                                nn.AdaptiveAvgPool2d((1, 1)),
-                                nn.Flatten())
-
+                                nn.AdaptiveAvgPool2d((1, 1)))
+        
+        self.dropout = nn.Dropout(0.4)
         self.output = nn.Linear(1024, num_classes)
 
     def forward(self, x):
@@ -65,5 +70,7 @@ class GoogLeNet(nn.Module):
         x = self.b3(x)
         x = self.b4(x)
         x = self.b5(x)
+        x = torch.flatten(x, 1)
+        x = self.dropout(x)
         x = self.output(x)
         return x
