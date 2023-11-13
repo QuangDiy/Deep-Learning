@@ -2,7 +2,7 @@ import torch
 import torchvision
 import torchvision.transforms as transforms
 from torch.utils.data import Dataset, DataLoader
-from evaluation.metric import predict, compute_score, classification_labels, show_confusion_matrix
+from evaluation.metric import predict, compute_score, classification_labels, save_fig, save_loss_acc_plots
 from models.ResNet import ResNet18
 import torch.nn as nn
 import matplotlib.pyplot as plt
@@ -19,6 +19,7 @@ learning_rate = 0.01
 patience = 3
 momentum = 0.9
 weight_decay = 0.01
+num_classes = 100
 #---------------------#
 transform = transforms.Compose([
     transforms.ToTensor(),
@@ -109,7 +110,7 @@ for epoch in range(n_epochs):
 #---------------------#
 y_pred, y_true = predict(model, test_loader, device)
 acc, f1, precision, recall = compute_score(y_pred, y_true)
-metrics = classification_labels(y_pred, y_true, num_classes = 10)
+metrics = classification_labels(y_pred, y_true, num_classes = num_classes)
 # Test set
 print("Accuracy: {:.2f} | F1 Score: {:.2f} | Precision: {:.2f} | Recall: {:.2f}".format(acc, f1, precision, recall))
 # For each labels
@@ -117,6 +118,7 @@ print(f'{"Class":<5} {"F1-score":<10} {"Accuracy":<10} {"Precision":<10} {"Recal
 for i in range(len(metrics['f1'])):
   print(f'{i:<5} {metrics["f1"][i].item():<10.4f} {metrics["accuracy"][i].item():<10.4f} {metrics["precision"][i].item():<10.4f} {metrics["recall"][i].item():<10.4f}')
 
-# Show confusion_matrix
-show_confusion_matrix(y_pred, y_true)
+# save image
+save_fig(y_pred, y_true)
+save_loss_acc_plots(n_epochs, list_loss, list_accuracy, list_dev_loss, list_dev_accuracy)
 
