@@ -15,11 +15,12 @@ from utils.early_stopping import EarlyStopping
 n_epochs = 20
 batch_size_train = 128
 batch_size_test = 128
-learning_rate = 0.01
+learning_rate = 0.1
 patience = 3
 momentum = 0.9
 weight_decay = 5e-4
 num_classes = 10
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 #---------------------#
 transform_train = transforms.Compose([
     transforms.RandomCrop(32, padding=4),
@@ -42,16 +43,10 @@ train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size_
 dev_loader = torch.utils.data.DataLoader(dev_dataset, batch_size=batch_size_train, shuffle=False)
 test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=batch_size_test, shuffle=False)
 
-# Device configuration
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-print(device)
-
 model = ResNet18().to(device)
 
-optimizer = torch.optim.SGD(model.parameters(), lr = learning_rate, weight_decay = weight_decay, momentum = momentum)
-
 loss_fn = nn.CrossEntropyLoss()
-
+optimizer = torch.optim.SGD(model.parameters(), lr = learning_rate, weight_decay = weight_decay, momentum = momentum)
 early_stopping = EarlyStopping(patience = patience, verbose=True)
 
 list_loss = []

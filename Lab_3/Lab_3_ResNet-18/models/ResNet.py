@@ -2,39 +2,6 @@ import torch
 from torch import nn
 from torch.nn import functional as F
 
-# class Residual(nn.Module): 
-#     def __init__(self, input_channels, num_channels, use_1x1conv = False, strides=1):
-#         super().__init__()
-#         self.conv1 = nn.Conv2d(input_channels, num_channels, 
-#                                kernel_size=3, padding=1, stride=strides)
-#         self.conv2 = nn.Conv2d(num_channels, num_channels,
-#                                kernel_size=3, padding=1)
-#         if use_1x1conv:
-#             self.conv3 = nn.Conv2d(input_channels, num_channels,
-#                                    kernel_size=1, stride=strides)
-#         else:
-#             self.conv3 = None
-#         self.norm1 = nn.BatchNorm2d(num_channels)
-#         self.norm2 = nn.BatchNorm2d(num_channels)
-
-#     def forward(self, x):
-#         y = F.relu(self.norm1(self.conv1(x)))
-#         y = self.norm2(self.conv2(y))
-#         if self.conv3:
-#             x = self.conv3(x)
-#         y += x
-#         y = F.relu(y)
-#         return y
-    
-# def resnet_block(input_channels, num_channels, num_residuals, first_block=False):
-#     blk = []
-#     for i in range(num_residuals):
-#         if i == 0 and not first_block:
-#             blk.append(Residual(input_channels, num_channels, use_1x1conv=True, strides=2))
-#         else:
-#             blk.append(Residual(num_channels, num_channels))
-#     return blk
-
 class Residual(nn.Module):
     def __init__(self, in_channels, out_channels, stride=1):
         super(Residual, self).__init__()
@@ -51,7 +18,6 @@ class Residual(nn.Module):
                 nn.Conv2d(in_channels, out_channels, kernel_size=1, stride=stride),
                 nn.BatchNorm2d(out_channels)
             )
-
     def forward(self, x):
         residual = self.residual(x)
         shortcut = self.shortcut(x)
@@ -91,7 +57,6 @@ class ResNet(nn.Module):
         x = x.view(x.size(0), -1)
         x = self.fc(x)
         return x
-
 
 def ResNet18():
     return ResNet(Residual)
