@@ -75,7 +75,7 @@ def save_loss_acc_plots(num_epochs, train_loss, train_acc, dev_loss, dev_acc):
 
     sns.set(style="darkgrid")
 
-    plt.figure(figsize=(10, 5))
+    plt.figure(figsize=(10, 8))
     sns.lineplot(data=df, x="Epochs", y="Train Loss", label="Train Loss")
     sns.lineplot(data=df, x="Epochs", y="Dev Loss", label="Dev Loss")
     plt.title('Train Loss vs Dev Loss')
@@ -88,7 +88,7 @@ def save_loss_acc_plots(num_epochs, train_loss, train_acc, dev_loss, dev_acc):
     plt.close()
 
     # Biểu đồ Train Accuracy và Dev Accuracy
-    plt.figure(figsize=(10, 5))
+    plt.figure(figsize=(10, 8))
     sns.lineplot(data=df, x="Epochs", y="Train Accuracy", label="Train Accuracy")
     sns.lineplot(data=df, x="Epochs", y="Dev Accuracy", label="Dev Accuracy")
     plt.title('Train Accuracy vs Dev Accuracy')
