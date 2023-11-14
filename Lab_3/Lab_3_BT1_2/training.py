@@ -42,7 +42,7 @@ model = GoogLeNet().to(device)
 
 optimizer = torch.optim.SGD(model.parameters(), lr = learning_rate, momentum = momentum, weight_decay = weight_decay)
 early_stopping = EarlyStopping(patience = patience, verbose=True)
-scheduler = StepLR(optimizer, step_size = 5, gamma = 0.1)
+scheduler = StepLR(optimizer, step_size = 10, gamma = 0.1)
 loss_fn = nn.CrossEntropyLoss()
 
 list_loss = []
