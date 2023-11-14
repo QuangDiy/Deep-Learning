@@ -37,7 +37,7 @@ transform_test = transforms.Compose([
 train_dataset = torchvision.datasets.CIFAR10(root='./data', train=True, download=True, transform=transform_train)
 test_dataset = torchvision.datasets.CIFAR10(root='./data', train=False, download=True, transform=transform_test)
 
-train_dataset, dev_dataset = train_test_split(train_dataset, test_size=0.2, random_state=42, stratify=train_dataset.targets)
+train_dataset, dev_dataset = train_test_split(train_dataset, test_size=0.15, random_state=42, stratify=train_dataset.targets)
 
 train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size_train, shuffle=True)
 dev_loader = torch.utils.data.DataLoader(dev_dataset, batch_size=batch_size_train, shuffle=False)
@@ -48,7 +48,7 @@ model = ResNet18().to(device)
 loss_fn = nn.CrossEntropyLoss()
 optimizer = torch.optim.SGD(model.parameters(), lr = learning_rate, momentum = momentum)
 early_stopping = EarlyStopping(patience = patience, verbose=True)
-scheduler = StepLR(optimizer, step_size = 5, gamma=0.1)
+scheduler = StepLR(optimizer, step_size = 4, gamma=0.1)
 
 list_loss = []
 list_accuracy = []
