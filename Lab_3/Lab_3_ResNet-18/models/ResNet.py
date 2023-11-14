@@ -60,4 +60,4 @@ class ResNet18(nn.Module):
         x = F.avg_pool2d(x, 4)
         x = x.view(x.size(0), -1)
         x = self.fc(x)
-        return x
+        return F.log_softmax(x, dim=-1)

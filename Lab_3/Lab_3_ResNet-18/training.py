@@ -40,9 +40,9 @@ test_dataset = torchvision.datasets.CIFAR10(root='./data', train=False, download
 
 train_dataset, dev_dataset = train_test_split(train_dataset, test_size=0.2, random_state=42)
 
-train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size_train, num_workers=3, shuffle=False)
-dev_loader = torch.utils.data.DataLoader(dev_dataset, batch_size=batch_size_train, num_workers=3, shuffle=False)
-test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=batch_size_test, num_workers=3, shuffle=False)
+train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size_train, shuffle=False)
+dev_loader = torch.utils.data.DataLoader(dev_dataset, batch_size=batch_size_train, shuffle=False)
+test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=batch_size_test, shuffle=False)
 
 model = ResNet18().to(device)
 
