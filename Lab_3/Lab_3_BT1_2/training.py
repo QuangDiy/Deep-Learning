@@ -116,7 +116,7 @@ y_pred, y_true = predict(model, test_loader, device)
 acc, f1, precision, recall = compute_score(y_pred, y_true)
 metrics = classification_labels(y_pred, y_true, num_classes = 10)
 # Test set
-print("Accuracy: {:.2f} | F1 Score: {:.2f} | Precision: {:.2f} | Recall: {:.2f}".format(acc, f1, precision, recall))
+print("Accuracy: {:.4f} | F1 Score: {:.4f} | Precision: {:.4f} | Recall: {:.4f}".format(acc, f1, precision, recall))
 # For each labels
 print(f'{"Class":<5} {"F1-score":<10} {"Accuracy":<10} {"Precision":<10} {"Recall":<10}')
 for i in range(len(metrics['f1'])):

@@ -39,7 +39,7 @@ test_dataset = torchvision.datasets.CIFAR10(root='./data', train=False, download
 
 train_dataset, dev_dataset = train_test_split(train_dataset, test_size=0.2, random_state=42, stratify=train_dataset.targets)
 
-train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size_train, shuffle=False)
+train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size_train, shuffle=True)
 dev_loader = torch.utils.data.DataLoader(dev_dataset, batch_size=batch_size_train, shuffle=False)
 test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=batch_size_test, shuffle=False)
 
@@ -116,7 +116,7 @@ y_pred, y_true = predict(model, test_loader, device)
 acc, f1, precision, recall = compute_score(y_pred, y_true)
 metrics = classification_labels(y_pred, y_true, num_classes)
 # Test set
-print("Accuracy: {:.2f} | F1 Score: {:.2f} | Precision: {:.2f} | Recall: {:.2f}".format(acc, f1, precision, recall))
+print("Accuracy: {:.4f} | F1 Score: {:.4f} | Precision: {:.4f} | Recall: {:.4f}".format(acc, f1, precision, recall))
 # For each labels
 print(f'{"Class":<5} {"F1-score":<10} {"Accuracy":<10} {"Precision":<10} {"Recall":<10}')
 for i in range(len(metrics['f1'])):
