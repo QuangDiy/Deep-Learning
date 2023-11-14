@@ -49,7 +49,7 @@ model = ResNet18().to(device)
 loss_fn = nn.CrossEntropyLoss()
 optimizer = torch.optim.SGD(model.parameters(), lr = learning_rate, weight_decay = weight_decay, momentum = momentum)
 early_stopping = EarlyStopping(patience = patience, verbose=True)
-scheduler = StepLR(optimizer, step_size = 3, gamma=0.5)
+scheduler = StepLR(optimizer, step_size = 3, gamma=0.1)
 
 list_loss = []
 list_accuracy = []
