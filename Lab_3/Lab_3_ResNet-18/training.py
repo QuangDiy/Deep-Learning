@@ -10,7 +10,7 @@ from tqdm import tqdm
 from sklearn.model_selection import train_test_split
 from torch.utils.data import Subset
 from utils.early_stopping import EarlyStopping
-from torch.optim.lr_scheduler import StepLR, ReduceLROnPlateau
+from torch.optim.lr_scheduler import StepLR
 
 #---------------------#
 n_epochs = 20
@@ -49,8 +49,7 @@ model = ResNet18().to(device)
 loss_fn = nn.CrossEntropyLoss()
 optimizer = torch.optim.SGD(model.parameters(), lr = learning_rate, weight_decay = weight_decay, momentum = momentum)
 early_stopping = EarlyStopping(patience = patience, verbose=True)
-scheduler = ReduceLROnPlateau(optimizer, mode='min', factor=0.05, patience=2, threshold=0.0001, threshold_mode='rel', cooldown=0, min_lr=0, eps=1e-08, verbose=True)
-# scheduler = StepLR(optimizer, step_size=4, gamma=0.1)
+scheduler = StepLR(optimizer, step_size = 4, gamma=0.3)
 
 list_loss = []
 list_accuracy = []
@@ -66,7 +65,6 @@ for epoch in range(n_epochs):
     for i, (images, labels) in pbar:
         images = images.to(device)
         labels = labels.to(device)
-
         outputs = model(images)
         loss = loss_fn(outputs, labels)
         acc = (torch.max(outputs, dim=1)[1] == labels).sum().item() / labels.size(0)
@@ -75,14 +73,13 @@ for epoch in range(n_epochs):
         loss.backward()
         optimizer.step()
         
-        # Step the learning rate scheduler
-        scheduler.step()
-
         epoch_loss += loss.item()
-        epoch_acc += acc
-        
+        epoch_acc += acc        
         pbar.set_description(f'Epoch [{epoch+1}/{n_epochs}], loss: {epoch_loss / (i+1):.4f}, accuracy: {epoch_acc / (i+1):.4f}')
         
+    # Step the learning rate scheduler
+    scheduler.step()
+
     epoch_loss /= len(train_loader)
     epoch_acc /= len(train_loader)
     list_loss.append(epoch_loss)
