@@ -29,7 +29,6 @@ transform_train = transforms.Compose([
     transforms.ToTensor(),
     transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
 ])
-
 transform_test = transforms.Compose([
     transforms.ToTensor(),
     transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
@@ -38,7 +37,7 @@ transform_test = transforms.Compose([
 train_dataset = torchvision.datasets.CIFAR10(root='./data', train=True, download=True, transform=transform_train)
 test_dataset = torchvision.datasets.CIFAR10(root='./data', train=False, download=True, transform=transform_test)
 
-train_dataset, dev_dataset = train_test_split(train_dataset, test_size=0.2, random_state=42)
+train_dataset, dev_dataset = train_test_split(train_dataset, test_size=0.2, random_state=42, stratify=train_dataset.targets)
 
 train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size_train, shuffle=False)
 dev_loader = torch.utils.data.DataLoader(dev_dataset, batch_size=batch_size_train, shuffle=False)
@@ -47,7 +46,7 @@ test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=batch_size_te
 model = ResNet18().to(device)
 
 loss_fn = nn.CrossEntropyLoss()
-optimizer = torch.optim.SGD(model.parameters(), lr = learning_rate, weight_decay = weight_decay, momentum = momentum)
+optimizer = torch.optim.SGD(model.parameters(), lr = learning_rate, momentum = momentum)
 early_stopping = EarlyStopping(patience = patience, verbose=True)
 scheduler = StepLR(optimizer, step_size = 5, gamma=0.1)
 
