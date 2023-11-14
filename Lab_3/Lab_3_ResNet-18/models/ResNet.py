@@ -6,16 +6,16 @@ class Residual(nn.Module):
     def __init__(self, in_channels, out_channels, stride=1):
         super(Residual, self).__init__()
         self.residual = nn.Sequential(
-            nn.Conv2d(in_channels, out_channels, kernel_size=3, stride=stride, padding=1),
+            nn.Conv2d(in_channels, out_channels, kernel_size=3, stride=stride, padding=1, bias=False),
             nn.BatchNorm2d(out_channels),
             nn.ReLU(inplace=True),
-            nn.Conv2d(out_channels, out_channels, kernel_size=3, stride=1, padding=1),
+            nn.Conv2d(out_channels, out_channels, kernel_size=3, stride=1, padding=1, bias=False),
             nn.BatchNorm2d(out_channels)
         )
         self.shortcut = nn.Sequential()
         if stride != 1 or in_channels != out_channels:
             self.shortcut = nn.Sequential(
-                nn.Conv2d(in_channels, out_channels, kernel_size=1, stride=stride),
+                nn.Conv2d(in_channels, out_channels, kernel_size=1, stride=stride, bias=False),
                 nn.BatchNorm2d(out_channels)
             )
     def forward(self, x):
@@ -24,12 +24,12 @@ class Residual(nn.Module):
         x = F.relu(residual + shortcut)
         return x
 
-class ResNet(nn.Module):
-    def __init__(self, Residual, num_classes = 10):
-        super(ResNet, self).__init__()
+class ResNet18(nn.Module):
+    def __init__(self, num_classes = 10):
+        super(ResNet18, self).__init__()
         self.in_channels = 64
         self.conv1 = nn.Sequential(
-            nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=1),
+            nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=1, bias=False),
             nn.BatchNorm2d(64),
             nn.ReLU()
         )
@@ -57,6 +57,3 @@ class ResNet(nn.Module):
         x = x.view(x.size(0), -1)
         x = self.fc(x)
         return x
-
-def ResNet18():
-    return ResNet(Residual)
