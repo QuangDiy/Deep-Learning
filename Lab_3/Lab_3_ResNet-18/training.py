@@ -19,7 +19,7 @@ batch_size_test = 128
 learning_rate = 0.01
 patience = 3
 momentum = 0.9
-weight_decay = 5e-4
+weight_decay = 1e-4
 num_classes = 10
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 #---------------------#
@@ -40,16 +40,16 @@ test_dataset = torchvision.datasets.CIFAR10(root='./data', train=False, download
 
 train_dataset, dev_dataset = train_test_split(train_dataset, test_size=0.2, random_state=42)
 
-train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size_train, shuffle=True)
-dev_loader = torch.utils.data.DataLoader(dev_dataset, batch_size=batch_size_train, shuffle=False)
-test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=batch_size_test, shuffle=False)
+train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size_train, num_workers=3, shuffle=False)
+dev_loader = torch.utils.data.DataLoader(dev_dataset, batch_size=batch_size_train, num_workers=3, shuffle=False)
+test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=batch_size_test, num_workers=3, shuffle=False)
 
 model = ResNet18().to(device)
 
 loss_fn = nn.CrossEntropyLoss()
 optimizer = torch.optim.SGD(model.parameters(), lr = learning_rate, weight_decay = weight_decay, momentum = momentum)
 early_stopping = EarlyStopping(patience = patience, verbose=True)
-scheduler = StepLR(optimizer, step_size = 3, gamma=0.1)
+scheduler = StepLR(optimizer, step_size = 4, gamma=0.1)
 
 list_loss = []
 list_accuracy = []
