@@ -10,7 +10,7 @@ from models.lenet import LeNet
 
 
 training = MNISTDataset('dataset/train-images-idx3-ubyte.gz', 'dataset/train-labels-idx1-ubyte.gz')
-train_loader = DataLoader(training, batch_size=128, shuffle=True)
+train_loader = DataLoader(training, batch_size=1, shuffle=True)
 
 
 dataiter = iter(train_loader)
@@ -25,7 +25,7 @@ plt.axis('off')
 plt.show()
 
 
-model = LeNet() 
-model.train()
-input_size = (1, 32, 32)  
-summary(model, input_size=input_size)
+# model = LeNet() 
+# model.train()
+# input_size = (1, 32, 32)  
+# summary(model, input_size=input_size)

@@ -38,10 +38,17 @@ class MNISTDataset(Dataset):
                 "images": resized_image.astype('float32'),
                 "labels": label
             })
-            # self.data.append({
-            #     "images": images.astype('float32'),
-            #     "labels": label
-            # })
+
+    # def load_dataset(self, path_images, path_labels):
+    #     images = load_data(path_images, False) / 255.0
+    #     labels = load_data(path_labels, True).reshape(-1)
+
+    #     self.data = []
+    #     for images, labels in zip(images, labels):
+    #         self.data.append({
+    #             "images": images.astype('float32'),
+    #             "labels": labels
+    #         })
 
     def __getitem__(self, idx):
         images = self.data[idx]["images"]
