@@ -17,13 +17,14 @@ train_image_path = './Deep-Learning/Lab_3/Lab_3_BT1_2/dataset/train-images-idx3-
 train_label_path = './Deep-Learning/Lab_3/Lab_3_BT1_2/dataset/train-labels-idx1-ubyte.gz'
 test_image_path = './Deep-Learning/Lab_3/Lab_3_BT1_2/dataset/t10k-images-idx3-ubyte.gz'
 test_label_path = './Deep-Learning/Lab_3/Lab_3_BT1_2/dataset/t10k-labels-idx1-ubyte.gz'
-n_epochs = 20
+n_epochs = 50
 batch_size_train = 128
 batch_size_test = 128
 learning_rate = 0.01
 patience = 3
 momentum = 0.9
 weight_decay = 1e-4
+num_classes = 10
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 #---------------------#
 
