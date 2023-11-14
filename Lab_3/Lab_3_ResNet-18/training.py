@@ -10,13 +10,14 @@ from tqdm import tqdm
 from sklearn.model_selection import train_test_split
 from torch.utils.data import Subset
 from utils.early_stopping import EarlyStopping
+from torch.optim.lr_scheduler import StepLR, ReduceLROnPlateau
 
 #---------------------#
 n_epochs = 20
 batch_size_train = 128
 batch_size_test = 128
-learning_rate = 0.1
-patience = 3
+learning_rate = 0.01
+patience = 5
 momentum = 0.9
 weight_decay = 5e-4
 num_classes = 10
@@ -48,6 +49,8 @@ model = ResNet18().to(device)
 loss_fn = nn.CrossEntropyLoss()
 optimizer = torch.optim.SGD(model.parameters(), lr = learning_rate, weight_decay = weight_decay, momentum = momentum)
 early_stopping = EarlyStopping(patience = patience, verbose=True)
+scheduler = ReduceLROnPlateau(optimizer, mode='min', factor=0.05, patience=2, threshold=0.0001, threshold_mode='rel', cooldown=0, min_lr=0, eps=1e-08, verbose=True)
+# scheduler = StepLR(optimizer, step_size=4, gamma=0.1)
 
 list_loss = []
 list_accuracy = []
@@ -68,10 +71,12 @@ for epoch in range(n_epochs):
         loss = loss_fn(outputs, labels)
         acc = (torch.max(outputs, dim=1)[1] == labels).sum().item() / labels.size(0)
 
-        # Backward and optimize
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
+        
+        # Step the learning rate scheduler
+        scheduler.step()
 
         epoch_loss += loss.item()
         epoch_acc += acc
