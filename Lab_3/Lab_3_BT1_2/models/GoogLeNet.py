@@ -52,10 +52,6 @@ class GoogLeNet(nn.Module):
                                 Inception(528, 256, (160, 320), (32, 128), 128),
                                 nn.MaxPool2d(kernel_size=3, stride=2, padding=1))
 
-        # self.b5 = nn.Sequential(Inception(832, 256, (160, 320), (32, 128), 128),
-        #                         Inception(832, 384, (192, 384), (48, 128), 128),
-        #                         nn.AdaptiveAvgPool2d((1, 1)),
-        #                         nn.Flatten())
 
         self.b5 = nn.Sequential(Inception(832, 256, (160, 320), (32, 128), 128),
                                 Inception(832, 384, (192, 384), (48, 128), 128),
